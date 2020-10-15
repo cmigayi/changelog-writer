@@ -1,0 +1,22 @@
+[
+  {
+    "version": "",
+    "date": "",
+    "type": { // added, changed, deprecated, removed, fixed, security
+        "added": [],
+        "changed": [],
+        "deprecated": []
+        //etc
+      }
+  },
+  {
+    "version": "",
+    "date": "",
+    "type": { // added, changed, deprecated, removed, fixed, security
+        "added": [],
+        "changed": [],
+        "deprecated": []
+        //etc
+      }
+  }
+]
