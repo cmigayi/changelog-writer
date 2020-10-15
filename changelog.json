@@ -1,16 +1,1 @@
-[
-  {
-    "version": "1.0.0",
-    "date": "12-10-2020",
-    "type": {
-      "added": [
-        "dsdsdsa"
-      ],
-      "changed": [],
-      "deprecated": [],
-      "removed": [],
-      "fixed": [],
-      "security": []
-    }
-  }
-]
+[{"version":"1.0.0","date":"12-10-2020","type":{"added":["dsdsdsa"],"changed":[],"deprecated":[],"removed":["sdsd","dsada","sdsad"],"fixed":[],"security":[]}}]

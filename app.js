@@ -1,5 +1,4 @@
 const fs = require('fs');
-const process = require('process');
 const util = require('./utils');
 
 var args = process.argv;
