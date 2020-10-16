@@ -27,3 +27,7 @@ For inputs after the first session:
 * INPUT TYPES: patch, minor, major
 * For PATCH: Inputs will can be FIXED,CHANGED or REMOVED and the command should be "fixed=[bug1,bug2, etc..]"
 * For MAJOR and MINOR: Inputs will can be ADDED, CHANGED, DEPRECATED, SECURITY and the command should be "added=[feature1, feature2, etc..]".  
+
+### Generate CHANGELOG.md
+For creation or update of the CHANGELOG.md
+> npm run change log
