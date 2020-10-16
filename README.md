@@ -11,14 +11,17 @@ For the first input run this command:
 > npm run change
 * You will be asked to "Enter initial version (ex 1.0.0):"
 * Input your initial version, then press ENTER.
-* Next, you be asked this "Specify change (added, changed, deprecated, removed, fixed, security):"
+* Next, you be asked this:
+> Specify change (added, changed, deprecated, removed, fixed, security):
 * Here, use the format below to input the type of change you want to log:
 > SPECIFY CHANGE TYPE=[STATEMENT1, STATEMENT2, etc...] 
  
 ##### Example:
 > added=[created login function, created registration form, created a validation function]
-* Once you press ENTER, a "write successful" message should appear.
-* Next, you will be asked "Specify change (added, changed, deprecated, removed, fixed, security):"
+* Once you press ENTER, the message below will appear:
+> write successful
+* Next, you will be asked as follows:
+> Specify change (added, changed, deprecated, removed, fixed, security):
 * Repeat
 
 ### Input change
