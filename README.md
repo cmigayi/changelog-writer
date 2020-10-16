@@ -13,8 +13,8 @@ For the first input run this command:
 * Input your initial version, then press ENTER.
 * Next, you be asked this "Specify change (added, changed, deprecated, removed, fixed, security):"
 * Here, use the format below to input the type of change you want to log:
-> SPECIFY CHANGE TYPE=[STATEMENT1, STATEMENT2, etc...]
-_Example:_
+> SPECIFY CHANGE TYPE=[STATEMENT1, STATEMENT2, etc...] <--
+#####Example:
 > added=[created login function, created registration form, created a validation function]
 * Once you press ENTER, a "write successful" message should appear.
 * Next, you will be asked "Specify change (added, changed, deprecated, removed, fixed, security):"
