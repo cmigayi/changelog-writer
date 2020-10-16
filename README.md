@@ -3,12 +3,12 @@ A tool to help you generate or write your project changelog file
 
 ## How to use changelog-writer
 ### Installation
-Inside your project run this command:
+Inside your project run this command to install changelog-witer:
 > sudo npm install changelog-writer --save 
 
 ### Start
-For the first input:
-* npm run change
+For the first input run this command:
+> npm run change
 * You will asked to "Enter initial version (ex 1.0.0):"
 * Key in your initial version, then press ENTER.
 * Next, you be asked "Specify change (added, changed, deprecated, removed, fixed, security):"
