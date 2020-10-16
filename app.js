@@ -26,6 +26,9 @@ if(fs.existsSync('./changelog.json')){
     case "type":
       util.askQuestionsForAnotherVersion(args[3], jsonfile, changelog);
     break;
+    case "log":
+      util.generateChangelogFile(jsonfile);
+    break;
     default:
       // Check if file format is ok
       util.checkIfThisFileFormatIsOk(jsonfile);

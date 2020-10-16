@@ -84,7 +84,7 @@ function addChangedItem(type, changelog){
   items = type[1].slice(1,-1).split(',');
 
   // DateTime
-  let dateTime = Date.now();
+  let dateTime = formatDate(new Date());
 
   switch(type[0]){
     case "added":
@@ -251,6 +251,79 @@ function askQuestionsForAnotherVersion(changeType, jsonfile, changelog){
 //  });
 }
 
+function generateChangelogFile(jsonfile){
+  let template  = changelogTemplate(jsonfile);
+  if(fs.existsSync('./CHANGELOG.md')){
+    fs.writeFileSync('./CHANGELOG.md', template);
+    console.log("update successful");
+  }else{
+    fs.writeFileSync('./CHANGELOG.md', template, { flag: 'wx' });
+    console.log("write successful");
+  }
+}
+
+function changelogTemplate(jsonfile){
+  let template = "\# Changelog \r\n"+
+  "All notable changes to this project will be documented in this file.\r\n"+
+  "The format is based on Keep a Changelog and this project adheres to Semantic Versioning."+
+  "\r\n\r\n";
+
+  jsonfile.forEach((json)=>{
+    let typeKeys = Object.keys(json.type);
+
+    template+="## \["+json.version+"\] \-date \r\n"+
+    "### "+typeKeys[0]+"\r\n";
+
+    json.type.added.forEach((content)=>{
+      let contents = content.split(':');
+      template += "* "+contents[0]+": "+contents[1]+"\r\n";
+    });
+
+    json.type.changed.forEach((content)=>{
+      template += "* "+content+"\r\n";
+    });
+
+    json.type.deprecated.forEach((content)=>{
+      template += "* "+content+"\r\n";
+    });
+
+    json.type.removed.forEach((content)=>{
+      template += "* "+content+"\r\n";
+    });
+
+    json.type.fixed.forEach((content)=>{
+      template += "* "+content+"\r\n";
+    });
+
+    json.type.security.forEach((content)=>{
+      template += "* "+content+"\r\n";
+    });
+
+    template += "\r\n\r\n";
+  });
+
+  return template;
+}
+
+function formatDate(date_ob){
+  // adjust 0 before single digit date
+  let date = date_ob.getDate();
+  if(date.length == 1){
+    date = "0" + date;
+  }
+
+  // current month
+  let month = date_ob.getMonth() + 1;
+  if(month.length == 1){
+    month = "0" + month;
+  }
+
+  // current year
+  let year = date_ob.getFullYear();
+
+  return year + "-" + month + "-" + date;
+}
+
 module.exports = {
   checkIfThisFileFormatIsOk,
   checkIfItExists,
@@ -260,5 +333,6 @@ module.exports = {
   isTypeWellDefined,
   askForTypeChangeQuestionOnly,
   askAllQuestionsAtStart,
-  askQuestionsForAnotherVersion
+  askQuestionsForAnotherVersion,
+  generateChangelogFile
 }
