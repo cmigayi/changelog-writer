@@ -3,8 +3,9 @@ A tool to help you generate or write your project changelog file
 
 ## How to use changelog-writer
 ### Installation
-Inside your project:
-* sudo npm install changelog-writer --save
+Inside your project run this command:
+> sudo npm install changelog-writer --save 
+
 ### Start
 For the first input:
 * npm run change
