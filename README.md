@@ -23,7 +23,7 @@ For the first input run this command:
 
 ### Input change
 For inputs after the first session:
-> npm run change type <SPECIFY INPUT TYPE>
+> npm run change type SPECIFY-INPUT-TYPE
 * INPUT TYPES: patch, minor, major
 * For PATCH: Inputs will can be FIXED,CHANGED or REMOVED and the command should be "fixed=[bug1,bug2, etc..]"
 * For MAJOR and MINOR: Inputs will can be ADDED, CHANGED, DEPRECATED, SECURITY and the command should be "added=[feature1, feature2, etc..]".  
