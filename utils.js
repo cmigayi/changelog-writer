@@ -83,35 +83,38 @@ function addChangedItem(type, changelog){
   type = type.split('=');
   items = type[1].slice(1,-1).split(',');
 
+  // DateTime
+  let dateTime = Date.now();
+
   switch(type[0]){
     case "added":
       items.forEach(function(item){
-        changelog.type.added.push(item);
+        changelog.type.added.push(dateTime+':'+item);
       });
     break;
     case "changed":
       items.forEach(function(item){
-        changelog.type.changed.push(item);
+        changelog.type.changed.push(dateTime+':'+item);
       });
     break;
     case "deprecated":
       items.forEach(function(item){
-        changelog.type.deprecated.push(item);
+        changelog.type.deprecated.push(dateTime+':'+item);
       });
     break;
     case "removed":
       items.forEach(function(item){
-        changelog.type.removed.push(item);
+        changelog.type.removed.push(dateTime+':'+item);
       });
     break;
     case "fixed":
       items.forEach(function(item){
-        changelog.type.fixed.push(item);
+        changelog.type.fixed.push(dateTime+':'+item);
       });
     break;
     case "security":
       items.forEach(function(item){
-        changelog.type.security.push(item);
+        changelog.type.security.push(dateTime+':'+item);
       });
     break;
   }
@@ -178,54 +181,74 @@ function isJson(item) {
     return false;
 }
 
-function askForTypeChangeQuestionOnly(jsonfile){
+function updateVersion(changeType, jsonfile){
+  version = jsonfile[jsonfile.length-1].version;
+  versions = version.split('.');
+  switch(changeType){
+    case "patch":
+      patch = Number(versions[2])+1;
+      version = versions[0]+'.'+versions[1]+'.'+patch;
+    break;
+    case "minor":
+      minor = Number(versions[1])+1;
+      version = versions[0]+'.'+minor+'.'+versions[2];
+    break;
+    case "major":
+      major = Number(versions[0])+1;
+      version = major+'.'+versions[1]+'.'+versions[2];
+    break;
+  }
+  return version;
+}
+
+function askForTypeChangeQuestionOnly(jsonfile, position){
   rl.question(`Specify change (added, changed, deprecated, removed, fixed, security):`, (type) => {
-    addChangedItem(type, jsonfile[0]);
+    addChangedItem(type, jsonfile[position]);
     fs.writeFile('./changelog.json', JSON.stringify(jsonfile), (err) => {
       if(err) console.log("write error: "+err);
       console.log("update successful");
-      askForTypeChangeQuestionOnly(jsonfile);
+      askForTypeChangeQuestionOnly(jsonfile, position);
     });
   });
 }
 
 function askAllQuestionsAtStart(changelog){
-  rl.question(`Enter version (ex. 1.0.0):`, (version) => {
-    rl.question(`Enter date (ex. 14-10-2020):`, (date) => {
+  rl.question(`Enter initial version (ex. 1.0.0):`, (version) => {
+    //rl.question(`Enter date (ex. 14-10-2020):`, (date) => {
       rl.question(`Specify change (added, changed, deprecated, removed, fixed, security):`, (type) => {
 
         // Add data to array and json
         changelog[0].version = version;
-        changelog[0].date = date;
+        //changelog[0].date = date;
 
         addChangedItem(type, changelog[0]);
 
         fs.writeFileSync('./changelog.json', JSON.stringify(changelog), { flag: 'wx' });
         console.log("write successful");
-        askForTypeChangeQuestionOnly(changelog);
+        askForTypeChangeQuestionOnly(changelog, 0);
       });
-    });
+  //  });
   });
 }
 
-function askQuestionsForAnotherVersion(jsonfile, changelog){
-  rl.question(`Enter version (ex. 1.0.0):`, (version) => {
-    rl.question(`Enter date (ex. 14-10-2020):`, (date) => {
+function askQuestionsForAnotherVersion(changeType, jsonfile, changelog){
+//  rl.question(`Enter version (ex. 1.0.0):`, (version) => {
+    //rl.question(`Enter date (ex. 14-10-2020):`, (date) => {
       rl.question(`Specify change (added, changed, deprecated, removed, fixed, security):`, (type) => {
 
         // Add data to array and json
-        changelog[0].version = version;
-        changelog[0].date = date;
+        changelog[0].version = updateVersion(changeType, jsonfile);
+      //  changelog[0].date = date;
 
         addChangedItem(type, changelog[0]);
         jsonfile[jsonfile.length] = changelog[0];
 
         fs.writeFileSync('./changelog.json', JSON.stringify(jsonfile));
         console.log("write successful", jsonfile);
-        askForTypeChangeQuestionOnly(jsonfile);
+        askForTypeChangeQuestionOnly(jsonfile, jsonfile.length);
       });
-    });
-  });
+  //  });
+//  });
 }
 
 module.exports = {
