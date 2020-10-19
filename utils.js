@@ -201,51 +201,58 @@ function updateVersion(changeType, jsonfile){
   return version;
 }
 
-function askForTypeChangeQuestionOnly(jsonfile, position){
+function askForTypeChangeQuestionOnly(jsonfile, jsonLogFromPackage, position){
   rl.question(`Specify change (added, changed, deprecated, removed, fixed, security):`, (type) => {
     addChangedItem(type, jsonfile[position]);
-    fs.writeFile('./changelog.json', JSON.stringify(jsonfile), (err) => {
+    fs.writeFile(jsonLogFromPackage, JSON.stringify(jsonfile), (err) => {
       if(err) console.log("write error: "+err);
       console.log("update successful");
-      askForTypeChangeQuestionOnly(jsonfile, position);
+      askForTypeChangeQuestionOnly(jsonfile, jsonLogFromPackage, position);
     });
   });
 }
 
-function askAllQuestionsAtStart(changelog){
+function askAllQuestionsAtStart(changelogJsonTemplate, jsonLogFromPackage){
   rl.question(`Enter initial version (ex. 1.0.0):`, (version) => {
     //rl.question(`Enter date (ex. 14-10-2020):`, (date) => {
       rl.question(`Specify change (added, changed, deprecated, removed, fixed, security):`, (type) => {
 
         // Add data to array and json
-        changelog[0].version = version;
+        changelogJsonTemplate[0].version = version;
         //changelog[0].date = date;
 
-        addChangedItem(type, changelog[0]);
+        addChangedItem(type, changelogJsonTemplate[0]);
 
-        fs.writeFileSync('./changelog.json', JSON.stringify(changelog), { flag: 'wx' });
+        fs.writeFileSync(
+          jsonLogFromPackage,
+          JSON.stringify(changelogJsonTemplate),
+          { flag: 'wx' }
+        );
         console.log("write successful");
-        askForTypeChangeQuestionOnly(changelog, 0);
+        askForTypeChangeQuestionOnly(changelogJsonTemplate, jsonLogFromPackage, 0);
       });
   //  });
   });
 }
 
-function askQuestionsForAnotherVersion(changeType, jsonfile, changelog){
+function askQuestionsForAnotherVersion(changeType, jsonfile, jsonLogFromPackage, changelogJsonTemplate){
 //  rl.question(`Enter version (ex. 1.0.0):`, (version) => {
     //rl.question(`Enter date (ex. 14-10-2020):`, (date) => {
       rl.question(`Specify change (added, changed, deprecated, removed, fixed, security):`, (type) => {
 
         // Add data to array and json
-        changelog[0].version = updateVersion(changeType, jsonfile);
+        changelogJsonTemplate[0].version = updateVersion(changeType, jsonfile);
       //  changelog[0].date = date;
 
-        addChangedItem(type, changelog[0]);
-        jsonfile[jsonfile.length] = changelog[0];
+        addChangedItem(type, changelogJsonTemplate[0]);
+        jsonfile[jsonfile.length] = changelogJsonTemplate[0];
 
-        fs.writeFileSync('./changelog.json', JSON.stringify(jsonfile));
+        fs.writeFileSync(
+          jsonLogFromPackage,
+          JSON.stringify(jsonfile)
+        );
         console.log("write successful", jsonfile);
-        askForTypeChangeQuestionOnly(jsonfile, jsonfile.length);
+        askForTypeChangeQuestionOnly(jsonfile, jsonLogFromPackage, jsonfile.length);
       });
   //  });
 //  });

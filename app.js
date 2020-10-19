@@ -1,9 +1,11 @@
 const fs = require('fs');
 const util = require('./utils');
+const path = require('path');
+const pjson = require('../../package.json');
 
 var args = process.argv;
 
-var changelog = [{
+var changelogJsonTemplate = [{
   "version": "",
   "date": "",
   "type": { // added, changed, deprecated, removed, fixed, security
@@ -16,15 +18,18 @@ var changelog = [{
   }
 }];
 
-console.log("Action (args): ", args[2]+' '+args[3]);
+var project = pjson.name;
+var jsonLogFromPackage = path.resolve('../'+project+'/node_modules/changelog-writer/changelog.json');
+
+//console.log("Action (args): ", args[2]+' '+args[3]);
 
 //check if changelog.json has been created
-if(fs.existsSync('./changelog.json')){
-  const jsonfile = require('./changelog.json');
+if(fs.existsSync(jsonLogFromPackage)){
+  const jsonfile = require(jsonLogFromPackage);
 
   switch(args[2]){
     case "type":
-      util.askQuestionsForAnotherVersion(args[3], jsonfile, changelog);
+      util.askQuestionsForAnotherVersion(args[3], jsonfile, jsonLogFromPackage, changelogJsonTemplate);
     break;
     case "log":
       util.generateChangelogFile(jsonfile);
@@ -40,11 +45,11 @@ if(fs.existsSync('./changelog.json')){
       //util.checkIfThereIsVersionOrDateValue(jsonfile, "date");
 
       // Ask question related to this
-      util.askForTypeChangeQuestionOnly(jsonfile, jsonfile.length-1);
+      util.askForTypeChangeQuestionOnly(jsonfile, jsonLogFromPackage, jsonfile.length-1);
     break;
   }
 
 }else{
   // Get input version, date, type, Changes
-  util.askAllQuestionsAtStart(changelog);
+  util.askAllQuestionsAtStart(changelogJsonTemplate, jsonLogFromPackage);
 }
