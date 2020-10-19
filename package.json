@@ -1,14 +1,27 @@
 {
   "name": "changelog-writer",
   "version": "1.3.0",
-  "description": "",
+  "description": "A tool to help you generate or write your project changelog file",
   "main": "app.js",
   "scripts": {
     "change": "node app"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmigayi/changelog-writer.git"
+  },
+  "keywords": [
+    "changelog",
+    "node-changelog",
+    "changelog-editer",
+    "releases"
+  ],
+  "author": "Cecil Migayi",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cmigayi/changelog-writer/issues"
+  },
+  "homepage": "https://github.com/cmigayi/changelog-writer#readme",
   "dependencies": {
     "readline": "^1.3.0"
   }
